@@ -1,12 +1,19 @@
 import { styled } from '@styles/stitches.config';
 
+import piggyImg from '../../../public/piggy.png';
+
 export namespace LoginPageStyles {
   export const Container = styled('main', {
     display: 'grid',
-    gridTemplateColumns: '1fr 1.5fr',
+    gridTemplateColumns: '420px 1fr',
 
     height: '100vh',
     overflow: 'hidden',
+    backgroundColor: '$brandAppSubtleBackground',
+
+    '@media screen and (max-width: 1024px)': {
+      gridTemplateColumns: '1fr',
+    },
   });
 
   export const Content = styled('section', {
@@ -15,16 +22,25 @@ export namespace LoginPageStyles {
     alignItems: 'center',
     justifyContent: 'center',
 
-    padding: '32px',
+    maxWidth: '420px',
+    width: '100%',
+    backgroundColor: '$brandAppBackground',
+    padding: '$large',
     height: '100%',
+
+    '@media screen and (max-width: 1024px)': {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+
+      margin: '0 auto',
+    },
   });
 
   export const LoginContainer = styled('article', {
     display: 'flex',
     flexDirection: 'column',
     gap: '$medium',
-
-    width: '80%',
   });
 
   export const LogoContainer = styled('figure', {
@@ -39,58 +55,32 @@ export namespace LoginPageStyles {
     height: '$$size',
     borderRadius: '$$size',
 
-    backgroundColor: '$elementBackground',
+    backgroundColor: '$brandElementBackground',
+    color: '$brandSolidBackground',
   });
 
   export const Title = styled('h1', {
     fontSize: '32px',
-    color: '$textHiContrast',
     fontWeight: '500',
+    color: '$brandTextHiContrastColor',
 
     '> b': {
-      // color: '$brandColor',
       fontWeight: '700',
+      color: '$brandSolidBackground',
     },
   });
 
   export const Description = styled('p', {
-    fontSize: '16px',
-    // color: '$textLoContrast',
-  });
-
-  export const GoogleButton = styled('button', {
-    marginTop: '16px',
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '$small',
-
-    height: 44,
-    paddingLeft: '$normal',
-    paddingRight: '$normal',
-
-    borderRadius: 8,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '$elementBorder',
-
-    backgroundColor: 'transparent',
-
-    fontSize: '$normal',
-    fontWeight: '500',
-
-    cursor: 'pointer',
-
-    '&:hover': {
-      borderColor: '$elementHoverBorder',
-      backgroundColor: '$elementHoverBackground',
-    },
+    fontSize: '$medium',
+    color: '$brandTextHiContrastColor',
   });
 
   export const Aside = styled('aside', {
     height: '100%',
-    backgroundColor: '$appSubtleBackground',
+    backgroundColor: '$brandAppSubtleBackground',
+    overflow: 'hidden',
+
+    backgroundImage: `url(${piggyImg.src})`,
 
     '> img': {
       width: '100%',
