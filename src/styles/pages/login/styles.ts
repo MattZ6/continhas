@@ -1,6 +1,6 @@
 import { styled } from '@styles/stitches.config';
 
-import piggyImg from '../../../public/piggy.png';
+import piggyImg from '../../../../public/piggy.png';
 
 export namespace LoginPageStyles {
   export const Container = styled('main', {

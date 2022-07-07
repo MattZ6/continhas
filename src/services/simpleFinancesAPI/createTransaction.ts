@@ -1,10 +1,10 @@
 import { apiClient } from './apiClient';
 
 export namespace CreateTransactionService {
-  type Request = {
+  export type Request = {
     title: string;
     value: number;
-    date: string;
+    date: Date;
     type: 'INCOME' | 'OUTCOME';
   };
 
@@ -16,7 +16,7 @@ export namespace CreateTransactionService {
     return apiClient.post<Response>('/v1/transactions', {
       title,
       value,
-      date,
+      date: date.toISOString(),
       type,
     });
   }

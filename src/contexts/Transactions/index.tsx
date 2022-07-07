@@ -1,8 +1,9 @@
-import { createContext, useMemo } from 'react';
-import { useQuery } from 'react-query';
+import { createContext, useCallback, useMemo } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { useMonths } from '@hooks/useMonths';
 
+import { CreateTransactionService } from '@services/simpleFinancesAPI/createTransaction';
 import { GetBalanceService } from '@services/simpleFinancesAPI/getBalance';
 
 import { TransactionsProviderData } from './types';
@@ -20,7 +21,7 @@ function useGetBalance({ date }: UseGetBalanceInput) {
 
   return useQuery(
     [
-      'balace',
+      'balance',
       correctDate?.getUTCFullYear(),
       (correctDate?.getUTCMonth() ?? 0) + 1,
     ],
@@ -36,7 +37,17 @@ function useGetBalance({ date }: UseGetBalanceInput) {
 
       const dayTransactions: TransactionsProviderData.DayTransactions[] = [];
 
-      transactions.forEach(transaction => {
+      transactions.forEach(t => {
+        const transaction = {
+          ...t,
+          tags: [
+            { id: '1', title: 'Kate', color_hex: '#ca71ff' },
+            { id: '2', title: 'Adri', color_hex: '#ffd171' },
+            { id: '3', title: 'CIS', color_hex: '#7671ff' },
+            { id: '4', title: 'Minha clínica', color_hex: '#ff71fb' },
+          ],
+        };
+
         const transactionDate = new Date(transaction.date);
 
         const index = dayTransactions.findIndex(
@@ -83,11 +94,51 @@ type Props = {
 };
 
 export function TransactionsProvider({ children }: Props) {
-  const { selectedMonth } = useMonths();
+  const { selectedMonth, months, refetch: reloadMonths } = useMonths();
+  const queryClient = useQueryClient();
 
   const { isLoading, isError, refetch, data } = useGetBalance({
     date: selectedMonth?.value,
   });
+
+  const createTransaction = useCallback(
+    async (request: CreateTransactionService.Request) => {
+      await CreateTransactionService.execute(request);
+
+      const { date } = request;
+
+      queryClient.invalidateQueries([
+        'balance',
+        date.getUTCFullYear(),
+        date.getUTCMonth() + 1,
+      ]);
+
+      const alreadyLoadedThisMonth = months.some(
+        month =>
+          month.value.getUTCFullYear() === date.getUTCFullYear() &&
+          month.value.getUTCMonth() === date.getUTCMonth()
+      );
+
+      if (!alreadyLoadedThisMonth) {
+        reloadMonths();
+      }
+
+      const mustReloadTransactions =
+        selectedMonth?.value.getUTCFullYear() === date.getUTCFullYear() &&
+        selectedMonth?.value.getUTCMonth() === date.getUTCMonth();
+
+      console.log(
+        mustReloadTransactions
+          ? 'Recarregar transações'
+          : 'Não recarregar transações'
+      );
+
+      if (mustReloadTransactions) {
+        refetch();
+      }
+    },
+    [months, selectedMonth, refetch, reloadMonths, queryClient]
+  );
 
   const contextData = useMemo<TransactionsProviderData.Context>(
     () => ({
@@ -96,8 +147,9 @@ export function TransactionsProvider({ children }: Props) {
       refetch,
       balance: data?.balance ?? { income: 0, outcome: 0, total: 0 },
       dayTransactions: data?.dayTransactions ?? [],
+      createTransaction,
     }),
-    [isLoading, isError, refetch, data]
+    [isLoading, isError, refetch, data, createTransaction]
   );
 
   return (

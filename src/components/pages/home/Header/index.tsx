@@ -1,22 +1,16 @@
 import { Plus } from 'phosphor-react';
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
 
 import { useAuth } from '@hooks/useAuth';
 
 import { PageHeader } from '@components/PageHeader';
 
+import { CreateTransactionDialog } from './CreateTransactionDialog';
 import { HomePageHeaderStyles as Styles } from './styles';
 
-type Props = {
-  isButtonHidden: boolean;
-  onButtonPressed: () => void;
-};
-
-function Component({
-  isButtonHidden: isTransactionFormOpen,
-  onButtonPressed,
-}: Props) {
+function Component() {
   const { profile } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
   const title = useMemo(() => {
     if (!profile) {
@@ -27,19 +21,21 @@ function Component({
   }, [profile]);
 
   return (
-    <PageHeader
-      title={title}
-      subtitle="Acompanhe o resumo mensal de suas contas"
-    >
-      <Styles.CreateTransactionButton
-        type="button"
-        disabled={isTransactionFormOpen}
-        hidden={isTransactionFormOpen}
-        onClick={onButtonPressed}
+    <>
+      <PageHeader
+        title={title}
+        subtitle="Acompanhe o resumo mensal de suas contas"
       >
-        <Plus size={24} />
-      </Styles.CreateTransactionButton>
-    </PageHeader>
+        <Styles.CreateTransactionButton
+          type="button"
+          onClick={() => setIsOpen(true)}
+        >
+          <Plus size={24} />
+        </Styles.CreateTransactionButton>
+      </PageHeader>
+
+      <CreateTransactionDialog isOpen={isOpen} onOpenStateChange={setIsOpen} />
+    </>
   );
 }
 

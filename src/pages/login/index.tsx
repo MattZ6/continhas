@@ -6,7 +6,7 @@ import { getGoogleSignInURL } from '@services/google';
 
 import { GoogleSignInButton } from '@components/GoogleSignInButton';
 
-import { LoginPageStyles as Styles } from './styles';
+import { LoginPageStyles as Styles } from '@styles/pages/login/styles';
 
 type LoginPageProps = {
   googleLoginURL: string;

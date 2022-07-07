@@ -1,12 +1,19 @@
 import { apiClient } from './apiClient';
 
 export namespace GetBalanceService {
-  type Transaction = {
+  export type Tag = {
+    id: string;
+    title: string;
+    color_hex: string;
+  };
+
+  export type Transaction = {
     id: string;
     title: string;
     value: number;
     type: 'INCOME' | 'OUTCOME';
     date: Date;
+    tags: Tag[];
   };
 
   type Balance = {
