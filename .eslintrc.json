@@ -1,0 +1,30 @@
+{
+  "extends": ["@rocketseat/eslint-config/react"],
+  "plugins": [
+    "eslint-plugin-import-helpers"
+  ],
+  "rules": {
+    "camelcase": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "module",
+          "/^@contexts/",
+          "/^@hooks/",
+          "/^@services/",
+          "/^@layouts/",
+          "/^@locales/",
+          "/^@providers/",
+          "/^@utils/",
+          "/^@pages/",
+          "/^@components/",
+          "/^@styles/",
+          ["parent", "sibling", "index"]
+        ],
+        "alphabetize": { "order": "asc", "ignoreCase": true }
+      }
+    ]
+  }
+}
