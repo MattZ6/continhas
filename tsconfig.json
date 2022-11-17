@@ -25,6 +25,7 @@
       "@pages/*": ["./pages/*"],
       "@styles/*": ["./styles/*"],
       "@utils/*": ["./utils/*"],
+      "@routes/*": ["./routes/*"],
     }
   },
   "include": ["src"],

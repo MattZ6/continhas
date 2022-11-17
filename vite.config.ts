@@ -20,6 +20,7 @@ export default defineConfig({
       { find: '@providers', replacement: resolvePath('providers') },
       { find: '@styles', replacement: resolvePath('styles') },
       { find: '@utils', replacement: resolvePath('utils') },
+      { find: '@routes', replacement: resolvePath('routes') },
     ],
   },
 })
