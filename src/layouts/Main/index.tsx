@@ -1,11 +1,16 @@
 import { Outlet } from 'react-router-dom'
 
+import { Sidemenu } from './components'
+import { MainLayoutStyles as Styles } from './styles'
+
 export function MainLayout() {
   return (
-    <div>
-      <header>Main layout</header>
+    <Styles.Container>
+      <Sidemenu />
 
-      <Outlet />
-    </div>
+      <Styles.Main>
+        <Outlet />
+      </Styles.Main>
+    </Styles.Container>
   )
 }
