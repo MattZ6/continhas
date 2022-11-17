@@ -36,12 +36,16 @@ const { globalCss, theme, createTheme, styled } = createStitches({
       small: '12px',
       normal: '14px',
       default: '16px',
+      medium: '24px',
+      large: '32px',
     },
 
     lineHeights: {
       small: '20px',
       normal: '20px',
       default: '24px',
+      medium: '32px',
+      large: '48px',
     },
 
     fontWeights: {
@@ -56,6 +60,7 @@ const { globalCss, theme, createTheme, styled } = createStitches({
       normal: '12px',
       default: '16px',
       medium: '24px',
+      large: '32px',
     },
 
     radii: {

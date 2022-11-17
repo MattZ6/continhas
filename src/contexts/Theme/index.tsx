@@ -96,7 +96,7 @@ function ThemeProvider({ children }: ThemeProviderTypes.Props) {
   }, [theme])
 
   return (
-    <ThemeContext.Provider value={{ selectTheme }}>
+    <ThemeContext.Provider value={{ theme, selectTheme }}>
       {children}
     </ThemeContext.Provider>
   )
